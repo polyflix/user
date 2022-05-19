@@ -1,0 +1,16 @@
+server:
+  port: 4002
+
+spring:
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:postgresql://localhost:5433/usermanagement
+    username: sa_usermanagement
+    password: sa_usermanagement_pwd
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
