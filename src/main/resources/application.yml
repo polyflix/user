@@ -8,6 +8,7 @@ spring:
     url: jdbc:postgresql://localhost:5433/usermanagement
     username: sa_usermanagement
     password: sa_usermanagement_pwd
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
