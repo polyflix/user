@@ -20,4 +20,4 @@ spring:
     enabled: false
 
 seeders:
-  enabled: true
+  enabled: false
