@@ -1,4 +1,4 @@
-package fr.polyflix.user.domain.repository
+package fr.polyflix.user.domain.persistence.repository
 
 import fr.polyflix.user.domain.entity.User
 import org.springframework.data.domain.Page

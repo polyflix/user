@@ -1,4 +1,6 @@
 spring:
+  kafka:
+    bootstrap-servers: kafka-0.kafka-headless:9092
   jpa:
     hibernate:
       ddl-auto: none

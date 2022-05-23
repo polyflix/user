@@ -3,8 +3,7 @@ package fr.polyflix.user.application.http.controller
 import fr.polyflix.user.application.http.dto.request.user.UpdateUserRequest
 import fr.polyflix.user.application.http.dto.response.user.UserPaginatedResponse
 import fr.polyflix.user.application.http.dto.response.user.UserResponse
-import fr.polyflix.user.domain.entity.User
-import fr.polyflix.user.domain.repository.UserRepository
+import fr.polyflix.user.domain.service.UserService
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -19,7 +18,7 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/users")
-class UserController(private val userRepository: UserRepository) {
+class UserController(private val userService: UserService) {
 
     @GetMapping
     fun findAll(
@@ -27,30 +26,30 @@ class UserController(private val userRepository: UserRepository) {
         @RequestParam(required = false, defaultValue = "10") size: Int,
     ): ResponseEntity<UserPaginatedResponse> {
         val pageable = PageRequest.of(page - 1, size)
-        val data = userRepository.findAll(pageable)
+        val data = userService.getUsers(pageable)
 
         return ResponseEntity.ok(UserPaginatedResponse(data))
     }
 
     @GetMapping("/{id}")
     fun findOne(@PathVariable id: String): ResponseEntity<UserResponse>? {
-        return userRepository
-            .findOne(UUID.fromString(id))
+        return userService
+            .findUserById(UUID.fromString(id))
             .map { ResponseEntity.ok(UserResponse(it)) }
             .orElseGet { ResponseEntity.notFound().build() }
     }
 
     @PutMapping("/{id}")
     fun updateOn(@PathVariable id: String, @RequestBody body: UpdateUserRequest): ResponseEntity<UserResponse>? {
-        return userRepository
-            .update(UUID.fromString(id), body.username, body.firstName, body.lastName, body.avatar)
+        return userService
+            .updateUser(UUID.fromString(id), body.username, body.firstName, body.lastName, body.avatar)
             .map {ResponseEntity.ok(UserResponse(it)) }
             .orElseGet { ResponseEntity.notFound().build() }
     }
 
     @DeleteMapping("/{id}")
     fun deleteOne(@PathVariable id: String): ResponseEntity<UserResponse>? {
-        userRepository.deleteOne(UUID.fromString(id))
+        userService.deleteUser(UUID.fromString(id))
         return ResponseEntity.noContent().build()
     }
 }

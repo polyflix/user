@@ -77,4 +77,8 @@ class User private constructor(
         this.avatar = avatar
         return this
     }
+
+    override fun toString(): String {
+        return "User { id: $id, email: $email, firstName: $firstName, lastName: $lastName }"
+    }
 }

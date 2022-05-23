@@ -2,7 +2,7 @@ package fr.polyflix.user.infrastructure.persistence.postgres.impl
 
 import fr.polyflix.user.domain.entity.Role
 import fr.polyflix.user.domain.enum.Roles
-import fr.polyflix.user.domain.repository.RoleRepository
+import fr.polyflix.user.domain.persistence.repository.RoleRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.SpringRoleRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.mapper.RoleEntityMapper
 import org.slf4j.LoggerFactory

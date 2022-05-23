@@ -1,7 +1,7 @@
 package fr.polyflix.user.infrastructure.persistence.postgres.impl
 
 import fr.polyflix.user.domain.entity.User
-import fr.polyflix.user.domain.repository.UserRepository
+import fr.polyflix.user.domain.persistence.repository.UserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.SpringUserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.mapper.UserEntityMapper
 import org.slf4j.LoggerFactory
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class UserRepositoryImpl(private val repository: SpringUserRepository, private val mapper: UserEntityMapper): UserRepository {
+class UserRepositoryImpl(private val repository: SpringUserRepository, private val mapper: UserEntityMapper):
+    UserRepository {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun findAll(pageable: Pageable): Page<User> {
@@ -31,6 +32,7 @@ class UserRepositoryImpl(private val repository: SpringUserRepository, private v
     }
 
     override fun create(user: User): User {
+        logger.info("Saving new user in database: $user")
         val createdUser = repository.save(mapper.toEntity(user))
         return mapper.toDomain(createdUser)
     }

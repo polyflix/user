@@ -4,6 +4,19 @@ server:
 spring:
   profiles:
     active: local
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      keycloak:
+        topic: polyflix.keycloak.user
+        group-id: user-keycloak-cg
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      topic: polyflix.user
   datasource:
     url: jdbc:postgresql://localhost:5433/usermanagement
     username: sa_usermanagement
