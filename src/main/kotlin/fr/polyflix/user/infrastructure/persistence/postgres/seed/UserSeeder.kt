@@ -63,8 +63,8 @@ class UserSeeder(
             )
         )
 
-        logger.info("Cleaning table 'users'")
-        userRepository.deleteAll()
+        logger.info("Cleaning seeds entity in table 'users'")
+        userRepository.deleteAll(seeds)
         logger.info("Seeding table 'users' with ${seeds.size} elements.")
         userRepository.saveAll(seeds)
     }
