@@ -25,8 +25,8 @@ class User private constructor(
     ) {
         fun withId(id: UUID) = apply { this.id = id }
         fun withEmail(email: String) = apply { this.email = email }
-        fun withFirstname(firstName: String) = apply { this.firstName = firstName }
-        fun withLastname(lastName: String) = apply { this.lastName = lastName }
+        fun withFirstname(firstName: String?) = apply { this.firstName = firstName ?: "" }
+        fun withLastname(lastName: String?) = apply { this.lastName = lastName ?: "" }
         fun withUsername(username: String) = apply { this.username = username }
         fun withAvatar(avatar: String) = apply { this.avatar = avatar }
         fun withRoles(roles: List<Role>) = apply { this.roles = roles }
@@ -46,8 +46,6 @@ class User private constructor(
     fun validate(): User {
         var invalidFields = mutableListOf<String>()
         if (roles.isEmpty()) throw UserWithoutRoleError()
-        if (firstName.isEmpty()) invalidFields.add("firstName")
-        if (lastName.isEmpty()) invalidFields.add("lastName")
         if (email.isEmpty()) invalidFields.add("email")
 
         if (invalidFields.size > 0) throw UserInvalidAttributeError(id, invalidFields)

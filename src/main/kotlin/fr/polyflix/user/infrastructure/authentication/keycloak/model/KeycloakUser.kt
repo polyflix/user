@@ -6,6 +6,6 @@ data class KeycloakUser(
     val id: UUID,
     val email: String,
     val username: String,
-    val firstName: String,
-    val lastName: String
+    val firstName: String?,
+    val lastName: String?
 )
