@@ -2,8 +2,17 @@ server:
   port: 4002
 
 spring:
+  application:
+    name: user
   profiles:
     active: local
+  sleuth:
+    otel:
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: http://localhost:4317
   security:
     oauth2:
       resourceserver:
