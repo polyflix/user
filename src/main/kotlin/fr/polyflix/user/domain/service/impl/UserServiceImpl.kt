@@ -1,9 +1,11 @@
 package fr.polyflix.user.domain.service.impl
 
 import fr.polyflix.user.domain.entity.User
+import fr.polyflix.user.domain.enum.Roles
 import fr.polyflix.user.domain.messaging.event.Trigger
 import fr.polyflix.user.domain.messaging.event.UserEvent
 import fr.polyflix.user.domain.messaging.producer.UserProducer
+import fr.polyflix.user.domain.persistence.repository.RoleRepository
 import fr.polyflix.user.domain.persistence.repository.UserRepository
 import fr.polyflix.user.domain.service.UserService
 import org.springframework.data.domain.Page
@@ -12,9 +14,9 @@ import java.util.*
 
 class UserServiceImpl(
     private val userRepository: UserRepository,
+    private val roleRepository: RoleRepository,
     private val userProducer: UserProducer
 ) : UserService {
-
     override fun getUsers(pageable: Pageable): Page<User> {
         return userRepository.findAll(pageable)
     }
@@ -41,9 +43,12 @@ class UserServiceImpl(
         userName: String?,
         firstName: String?,
         lastName: String?,
-        avatar: String?
+        avatar: String?,
+        roles: List<Roles>?
     ): Optional<User> {
-        val updated = userRepository.update(id, userName, firstName, lastName, avatar)
+        // Get the new roles if the roles are updated
+        val roles = roles?.map { roleRepository.findByName(it).get() }
+        val updated = userRepository.update(id, userName, firstName, lastName, avatar, roles)
         val event = UserEvent.Builder()
             .withUser(updated.get())
             .withTrigger(Trigger.UPDATE)

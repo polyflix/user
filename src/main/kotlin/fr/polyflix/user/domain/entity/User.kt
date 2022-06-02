@@ -1,5 +1,6 @@
 package fr.polyflix.user.domain.entity
 
+import fr.polyflix.user.domain.enum.Roles
 import fr.polyflix.user.domain.error.UserInvalidAttributeError
 import fr.polyflix.user.domain.error.UserWithoutRoleError
 import java.util.Base64
@@ -73,6 +74,11 @@ class User private constructor(
 
     fun setAvatar(avatar: String): User {
         this.avatar = avatar
+        return this
+    }
+
+    fun setRoles(roles: List<Role>): User {
+        this.roles = roles
         return this
     }
 

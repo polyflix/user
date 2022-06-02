@@ -26,10 +26,10 @@ class UserController(private val userService: UserService) {
 
     @GetMapping
     fun findAll(
-        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "0") page: Int,
         @RequestParam(required = false, defaultValue = "10") size: Int,
     ): ResponseEntity<UserPaginatedResponse> {
-        val pageable = PageRequest.of(page - 1, size)
+        val pageable = PageRequest.of(page, size)
         val data = userService.getUsers(pageable)
 
         return ResponseEntity.ok(UserPaginatedResponse(data))
@@ -54,12 +54,25 @@ class UserController(private val userService: UserService) {
         }
 
         return userService
-            .updateUser(UUID.fromString(id), body.username, body.firstName, body.lastName, body.avatar)
+            .updateUser(
+                UUID.fromString(id),
+                body.username,
+                body.firstName,
+                body.lastName,
+                body.avatar,
+                // We want to use the roles in the request only if the
+                // authenticated user is administrator
+                if (isAdmin(roles)) body.roles else null
+            )
             .map {ResponseEntity.ok(UserResponse(it)) }
             .orElseGet { ResponseEntity.notFound().build() }
     }
 
     private fun hasSufficientPermissions(subject: String, user: String, userRoles: List<String>): Boolean {
-        return subject == user || userRoles.contains(Roles.Administrator.name.uppercase())
+        return subject == user || isAdmin(userRoles)
+    }
+
+    private fun isAdmin(userRoles: List<String>): Boolean {
+        return userRoles.contains(Roles.Administrator.name.uppercase())
     }
 }

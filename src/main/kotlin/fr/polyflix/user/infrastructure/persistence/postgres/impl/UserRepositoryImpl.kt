@@ -1,6 +1,8 @@
 package fr.polyflix.user.infrastructure.persistence.postgres.impl
 
+import fr.polyflix.user.domain.entity.Role
 import fr.polyflix.user.domain.entity.User
+import fr.polyflix.user.domain.enum.Roles
 import fr.polyflix.user.domain.persistence.repository.UserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.SpringUserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.mapper.UserEntityMapper
@@ -21,7 +23,6 @@ class UserRepositoryImpl(private val repository: SpringUserRepository, private v
     }
 
     override fun findOne(id: UUID): Optional<User> {
-        logger.info("Trying to retrieve user with id $id")
         return repository
             .findById(id)
             .map { mapper.toDomain(it) }
@@ -47,13 +48,17 @@ class UserRepositoryImpl(private val repository: SpringUserRepository, private v
         userName: String?,
         firstName: String?,
         lastName: String?,
-        avatar: String?
+        avatar: String?,
+        roles: List<Role>?
     ): Optional<User> {
         return findOne(id).flatMap {
             if (userName != null) it.setUsername(userName)
             if (firstName != null) it.setFirstName(firstName)
             if (lastName != null) it.setLastName(lastName)
             if (avatar != null) it.setAvatar(avatar)
+            if (roles != null) it.setRoles(roles)
+            
+            it.validate()
 
             val updated = repository.save(mapper.toEntity(it))
 
