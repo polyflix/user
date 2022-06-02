@@ -21,6 +21,9 @@ class KafkaKeycloakConsumer(private val userService: UserService, private val ke
                 userService.createUser(keycloakUserMapper.toDomain(event.data))
                 ack.acknowledge()
             }
+            KeycloakEventType.DELETE -> {
+                userService.deleteUser(event.data.id)
+            }
         }
     }
 }

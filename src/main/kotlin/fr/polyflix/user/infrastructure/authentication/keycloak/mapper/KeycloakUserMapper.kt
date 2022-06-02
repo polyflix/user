@@ -18,7 +18,7 @@ class KeycloakUserMapper(private val roleRepository: RoleRepository) {
         logger.info("Applying default roles to user : [${Roles.Member}]")
         return User.Builder()
             .withId(keycloakUser.id)
-            .withEmail(keycloakUser.email)
+            .withEmail(keycloakUser.email ?: "")
             .withUsername(keycloakUser.username)
             .withFirstname(keycloakUser.firstName)
             .withLastname(keycloakUser.lastName)
