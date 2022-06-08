@@ -26,7 +26,7 @@ class UserEntityMapper(private val roleMapper: RoleEntityMapper): PersistenceMap
             user.lastName,
             user.username,
             user.avatar,
-            user.roles.map { roleMapper.toEntity(it) }
+            user.roles.map { roleMapper.toEntity(it) },
         )
     }
 }

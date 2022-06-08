@@ -12,6 +12,8 @@ class SecurityConfiguration: WebSecurityConfigurerAdapter() {
             it
                 .antMatchers(HttpMethod.GET, "/users/**")
                 .permitAll()
+                .antMatchers(HttpMethod.GET, "/groups/**")
+                .permitAll()
                 .antMatchers("/actuator/**")
                 .permitAll()
                 .anyRequest()

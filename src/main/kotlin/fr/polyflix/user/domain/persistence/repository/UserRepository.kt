@@ -9,6 +9,7 @@ import java.util.UUID
 
 interface UserRepository {
     fun findAll(pageable: Pageable): Page<User>
+    fun findAllByIds(ids: List<UUID>): List<User>
     fun findOne(id: UUID): Optional<User>
     fun create(user: User): User
     fun update(id: UUID, userName: String?, firstName: String?, lastName: String?, avatar: String?, roles: List<Role>?): Optional<User>

@@ -19,5 +19,5 @@ class UserEntity(
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
-    val roles: Collection<RoleEntity>
+    val roles: Collection<RoleEntity>,
 )

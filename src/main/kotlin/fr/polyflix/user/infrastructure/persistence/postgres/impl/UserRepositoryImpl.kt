@@ -2,7 +2,6 @@ package fr.polyflix.user.infrastructure.persistence.postgres.impl
 
 import fr.polyflix.user.domain.entity.Role
 import fr.polyflix.user.domain.entity.User
-import fr.polyflix.user.domain.enum.Roles
 import fr.polyflix.user.domain.persistence.repository.UserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.SpringUserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.mapper.UserEntityMapper
@@ -20,6 +19,10 @@ class UserRepositoryImpl(private val repository: SpringUserRepository, private v
     override fun findAll(pageable: Pageable): Page<User> {
         val entities = repository.findAll(pageable)
         return entities.map { mapper.toDomain(it) }
+    }
+
+    override fun findAllByIds(ids: List<UUID>): List<User> {
+        return repository.findAllById(ids).map { mapper.toDomain(it) }
     }
 
     override fun findOne(id: UUID): Optional<User> {

@@ -1,6 +1,7 @@
 package fr.polyflix.user.application.http.exceptions
 
 import fr.polyflix.user.application.http.dto.response.ApiError
+import fr.polyflix.user.domain.error.UserHasNoSufficientPermissionsError
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -19,8 +20,13 @@ class CustomRestExceptionHandler: ResponseEntityExceptionHandler() {
     fun handleAll(ex: Exception, request: WebRequest?): ResponseEntity<Any> {
         logger.error("${ex.message}")
 
+        val status = when(ex) {
+            is UserHasNoSufficientPermissionsError -> HttpStatus.FORBIDDEN
+            else -> HttpStatus.INTERNAL_SERVER_ERROR
+        }
+
         val error = ApiError(
-            HttpStatus.INTERNAL_SERVER_ERROR,
+            status,
             ex.message ?: "No message for this error",
             ex.javaClass.canonicalName
         )
