@@ -11,7 +11,7 @@ class UserEntity(
     @Column val firstName: String,
     @Column val lastName: String,
     @Column val username: String,
-    @Column val avatar: String,
+    @Column(columnDefinition="TEXT") val avatar: String,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
