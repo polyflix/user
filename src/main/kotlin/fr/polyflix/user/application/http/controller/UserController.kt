@@ -28,7 +28,16 @@ class UserController(private val userService: UserService) {
     fun findAll(
         @RequestParam(required = false, defaultValue = "0") page: Int,
         @RequestParam(required = false, defaultValue = "10") size: Int,
+        @RequestHeader("X-User-Id") userId: String,
+        @RequestHeader("X-User-Roles") userRoles: String,
     ): ResponseEntity<UserPaginatedResponse> {
+        val roles = userRoles.split(",")
+        if (!isAdmin(roles)) {
+            logger.warn("Forbidden access. $userId is not administrator.")
+            return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .build()
+        }
         val pageable = PageRequest.of(page, size)
         val data = userService.getUsers(pageable)
 
