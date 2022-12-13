@@ -5,12 +5,14 @@ import fr.polyflix.user.infrastructure.persistence.postgres.SpringGroupRepositor
 import fr.polyflix.user.infrastructure.persistence.postgres.SpringRoleRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.SpringUserRepository
 import fr.polyflix.user.infrastructure.persistence.postgres.entity.GroupEntity
+import fr.polyflix.user.infrastructure.persistence.postgres.entity.GroupRequestEntity
 import fr.polyflix.user.infrastructure.persistence.postgres.entity.RoleEntity
 import fr.polyflix.user.infrastructure.persistence.postgres.entity.UserEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 import java.util.*
 
 @Component
@@ -66,6 +68,18 @@ class UserSeeder(
             )
         )
 
+        val groupRequestDO3 = GroupRequestEntity(
+            UUID.fromString("77695670-a8ea-49ec-9c8c-4c9bc26fdf3c"),
+            "I want to join this group because I am in DO3",
+            LocalDateTime.now()
+        )
+
+        val groupRequestDO4 = GroupRequestEntity(
+            UUID.fromString("8b9b0aa1-22de-48bb-ae00-622ff007647d"),
+            "I want to join this group because I am in DO4",
+            LocalDateTime.now()
+        )
+
         val userSeeds = listOf(memberUser, contributorUser, administratorUser)
 
         val groupSeeds = listOf(
@@ -74,14 +88,16 @@ class UserSeeder(
                 "DO4",
                 "do4",
                 administratorUser,
-                setOf(memberUser, contributorUser, administratorUser)
+                setOf(memberUser, contributorUser, administratorUser),
+                setOf(groupRequestDO4)
             ),
             GroupEntity(
                 UUID.fromString("ce3848ce-742f-4467-ab9d-3c5889cf282f"),
                 "DO3",
                 "do3",
                 contributorUser,
-                setOf(memberUser)
+                setOf(memberUser),
+                setOf(groupRequestDO3)
             )
         )
 

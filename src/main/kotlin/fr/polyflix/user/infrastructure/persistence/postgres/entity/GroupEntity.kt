@@ -26,4 +26,12 @@ class GroupEntity(
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )
     val members: Set<UserEntity>,
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "groups_requests",
+        joinColumns = [JoinColumn(name = "group_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "request_id", referencedColumnName = "id")]
+    )
+    val groupRequests: Set<GroupRequestEntity>,
 )
