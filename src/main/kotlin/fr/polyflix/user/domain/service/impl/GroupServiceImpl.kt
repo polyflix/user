@@ -15,7 +15,8 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import java.util.*
 
-class GroupServiceImpl(private val groupRepository: GroupRepository, private val userRepository: UserRepository): GroupService {
+class GroupServiceImpl(private val groupRepository: GroupRepository, private val userRepository: UserRepository) :
+    GroupService {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun create(props: CreateGroupProps): Group {
@@ -32,7 +33,7 @@ class GroupServiceImpl(private val groupRepository: GroupRepository, private val
         logger.info("Slug '$slug' generated from group '${props.name}'")
 
         // Build the group and save it
-        val group = Group(id, props.name, slug, owner, members.toMutableSet())
+        val group = Group(id, props.name, slug, owner, members.toMutableSet(), mutableSetOf())
         return groupRepository.save(group)
     }
 
