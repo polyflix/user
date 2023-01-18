@@ -13,4 +13,5 @@ interface UserService {
     fun findUserById(id: UUID): Optional<User>
     fun updateUser(id: UUID, userName: String?, firstName: String?, lastName: String?, avatar: String?, roles: List<Roles>?): Optional<User>
     fun deleteUser(id: UUID)
+    fun findUsersById(ids: List<UUID>): List<User>
 }
