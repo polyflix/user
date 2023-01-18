@@ -2,7 +2,7 @@
 set +e
 
 # Compile the project for the first time
-mvn compile
+mvn -T 1C clean install -Dmaven.test.skip -DskipTests -Dmaven.javadoc.skip=true
 
 COLOR_BLUE="\033[0;94m"
 COLOR_GREEN="\033[0;92m"
