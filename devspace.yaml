@@ -20,3 +20,5 @@ dev:
           - target/
     terminal:
       command: ./devcontainer.sh
+    ports:
+      - port: "4002:8080"
