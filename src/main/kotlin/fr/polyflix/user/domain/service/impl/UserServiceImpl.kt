@@ -70,4 +70,8 @@ class UserServiceImpl(
         // Send delete event to the messaging system
         userProducer.send(event)
     }
+
+    override fun findUsersById(ids: List<UUID>): List<User> {
+        return userRepository.findAllByIds(ids)
+    }
 }
